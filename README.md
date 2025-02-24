@@ -1,2 +1,2 @@
 # Bigdata-Pipeline
-##Th Readme section will be provided soon
+The ReadMe section will be provided soon
