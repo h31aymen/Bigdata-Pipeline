@@ -1,0 +1,99 @@
+version: '3.8'
+
+
+volumes:
+  redis_data:
+  es_data:
+
+
+networks:
+  pipe-network:
+    driver: bridge
+
+
+services:
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.10.2
+    volumes:
+      - ./filebeat.yml:/usr/share/filebeat/filebeat.yml
+      - C:/Users/Public/logs:/var/log:ro
+    ports:
+      - "514:514/udp"
+    networks:
+      - pipe-network
+    depends_on:
+      - logstash
+    restart: always
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.10.2
+    volumes:
+      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./logstash.yml:/usr/share/logstash/config/logstash.yml
+    ports:
+      - "5044:5044"
+    networks:
+      - pipe-network
+    depends_on:
+      - redis
+    restart: always
+
+
+  redis:
+    container_name: redis
+    image: redis:latest
+    networks:
+      - pipe-network
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+
+  jobmanager:
+    image: my-flink-jobmanager  
+    container_name: flink-jobmanager
+    hostname: jobmanager
+    ports:
+      - "8081:8081"  
+    volumes:
+      - ./flink_process.py:/opt/flink/job/flink_process.py  # No need to change
+    networks:
+      - pipe-network
+    depends_on:
+      - redis
+    environment:
+      - JOB_MANAGER_RPC_ADDRESS=jobmanager
+    restart: always
+
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.10.2
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    networks:
+      pipe-network:
+        aliases:
+          - elasticsearch
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+    restart: always
+
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.10.2
+    ports:
+      - "5601:5601"
+    networks:
+      - pipe-network
+    depends_on:
+      - elasticsearch
+    restart: always
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+
+

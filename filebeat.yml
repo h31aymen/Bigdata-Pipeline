@@ -1,0 +1,9 @@
+filebeat.inputs:
+  - type: syslog
+    protocol.udp:
+      host: "0.0.0.0:514"
+      port: 514
+    fields:
+      source: "ingestion"
+output.logstash:
+  hosts: ["logstash:5044"]  
