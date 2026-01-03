@@ -39,12 +39,16 @@ A comprehensive data pipeline for collecting, processing, and analyzing network 
 git clone <repository-url>
 cd Bigdata-Pipeline
 ```
-
-# Build the custom Flink image
+2. **Build the custom Flink image**
 ```bash
 docker build -t my-flink-jobmanager -f Dockerfile.flink .
-
+```
+3. **Start the pipeline**
+```bash
 docker-compose up -d
+```
+4. **Generate sample logs**
+```bash
 python generate_logs.py
 ```
 
@@ -66,25 +70,20 @@ Bigdata-Pipeline/
 Port: 514/UDP
 Role: Collects syslog data from network devices
 Volume Mount: Monitors C:/Users/Public/logs (Windows path)
-
 2. Logstash (Log Processor)
 Port: 5044/TCP
 Filters: Parses log messages using GROK patterns
 Output: Sends processed logs to Redis queue
-
 3. Redis (Message Queue)
 Role: Temporary storage for logs before processing
 Volume: Persistent storage for data durability
-
 4. Apache Flink (Stream Processor)
 Port: 8081 (Web UI)
 Job: Processes logs from Redis, aggregates statistics
 Output: Updates Elasticsearch with device analytics
-
 5. Elasticsearch (Data Storage)
 	* Ports: 9200 (HTTP), 9300 (TCP)
 	* Index: network-logs
-
 6. Kibana (Visualization)
 Port: 5601
 Dashboard: View network device statistics
