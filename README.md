@@ -104,9 +104,9 @@ Dashboard: View network device statistics
 7. Visualization: Kibana dashboard displays real-time metrics
 
 ## Features
-Real-time Processing: Near real-time log analysis pipeline
-Scalable Architecture: Microservices-based design
-Fault Tolerance: Automatic restart policies for all services
-Persistent Storage: Redis and Elasticsearch data persistence
-Monitoring: Built-in metrics and logging
-Flexible Input: Supports syslog UDP, file monitoring, and simulated data
+* Real-time Processing: Near real-time log analysis pipeline
+* Scalable Architecture: Microservices-based design
+* Fault Tolerance: Automatic restart policies for all services
+* Persistent Storage: Redis and Elasticsearch data persistence
+* Monitoring: Built-in metrics and logging
+* Flexible Input: Supports syslog UDP, file monitoring, and simulated data
