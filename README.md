@@ -82,8 +82,8 @@ Job: Processes logs from Redis, aggregates statistics
 Output: Updates Elasticsearch with device analytics
 
 5. Elasticsearch (Data Storage)
-* Ports: 9200 (HTTP), 9300 (TCP)
-* Index: network-logs
+	* Ports: 9200 (HTTP), 9300 (TCP)
+	* Index: network-logs
 
 6. Kibana (Visualization)
 Port: 5601
