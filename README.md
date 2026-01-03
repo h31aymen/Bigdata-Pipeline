@@ -82,9 +82,8 @@ Job: Processes logs from Redis, aggregates statistics
 Output: Updates Elasticsearch with device analytics
 
 5. Elasticsearch (Data Storage)
-Ports: 9200 (HTTP), 9300 (TCP)
-Index: network-logs
-Security: Disabled for development (xpack.security.enabled=false)
+* Ports: 9200 (HTTP), 9300 (TCP)
+* Index: network-logs
 
 6. Kibana (Visualization)
 Port: 5601
@@ -96,10 +95,10 @@ Dashboard: View network device statistics
 3. Buffering: Redis acts as a queue (list: logstash:logs)
 4. Stream Processing: Flink reads from Redis in batches (100 logs)
 5. Aggregation: Flink computes device-level statistics:
-	1. Total logs per device
-	2. Warning counts
-	3. Port status (up/down)
-	4. Most common log levels
+	* Total logs per device
+	* Warning counts
+	* Port status (up/down)
+	* Most common log levels
 6. Storage: Aggregated data stored in Elasticsearch
 7. Visualization: Kibana dashboard displays real-time metrics
 
